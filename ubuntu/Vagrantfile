@@ -24,15 +24,15 @@ additional_disks = "no"  #Define if additional drives defined should be added (y
 additional_disks_controller = "SATA Controller"
 additional_disks_num = 1  #Define the number of additional disks to add
 additional_disks_size = 10  #Define disk size in GB
-additional_nics = "no"  #Define if additional network adapters should be created (yes | no)
-additional_nics_dhcp = "yes"  #Define if additional network adapters should be DHCP assigned
+additional_nics = "yes"  #Define if additional network adapters should be created (yes | no)
+additional_nics_dhcp = "no"  #Define if additional network adapters should be DHCP assigned
 additional_nics_num = 1  #Define the number of additional nics to add
 ansible_groups = {
   "test-nodes" => [
     "node[0:#{N-1}"
   ]
 }
-box = "bento/ubuntu-16.04"  #Define Vagrant box to load
+box = "bento/ubuntu-15.04"  #Define Vagrant box to load
 custom_cpu_mem = "no"  #Define if custom cpu and memory requirements are needed (yes| no)...defined within nodes variable above
 desktop = "no"  #Define if running desktop OS (yes | no)
 enable_custom_boxes = "no"  #Define if custom boxes should be used...defined in nodes var..
@@ -44,7 +44,7 @@ provision_nodes = "no"  #Define if provisioners should run (yes | no)
 server_cpus = 1  #Define number of CPU cores...will be ignored if custom_cpu_mem == "yes"
 server_memory = 512  #Define amount of memory to assign to node(s)...will be ignored if custom_cpu_mem == "yes"
 subnet = "192.168.2."  #Define subnet for private_network (If not using DHCP)
-subnet_ip_start = 200  #Define starting last octet of the subnet range to begin addresses for node(s)
+subnet_ip_start = 110  #Define starting last octet of the subnet range to begin addresses for node(s)
 
 Vagrant.configure(2) do |config|
 
