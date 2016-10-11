@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VERSION=2.5
+DEV_VERSION="yes"
 
 function die {
     echo $*
@@ -12,43 +13,43 @@ function pre_setup {
 }
 
 function install_prereqs {
-  yum -y install curl cmake make gperftools gcc gcc-c++ flex bison libpcap-devel openssl-devel python-devel swig zlib-devel
+  yum -y install curl cmake make gperftools gcc gcc-c++ flex bison libpcap-devel openssl-devel python-devel swig wget zlib-devel
+  if [ DEV_VERSION="yes" ]; then
+    yum -y install git
+  fi
 }
 
-function install_geoIP {
-  yum -y install GeoIP
-  if [ -e /usr/share/GeoIP/GeoIPCity.dat ]; then
-    echo "GeoIP data already installed"
-    return
-  fi
-  if [ ! -e GeoLiteCity.dat.gz ]; then
-    echo "downloading GeoIP data"
-    wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz --progress=dot:mega
-  fi
-  if [ ! -e GeoLiteCity.dat.gz ]; then
-    echo "unzipping the data"
-    gunzip GeoLiteCity.dat.gz
-  fi
-  mv GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
-}
-
-function install_bro {
+function download_bro {
   if [ -e /usr/local/bro/bin/bro ] ; then
       echo "bro already installed"
       return
   fi
-  if [ ! -e bro-${VERSION}.tar.gz ] ; then
+  if  DEV_VERSION="yes" ; then
+    git clone --recursive git://git.bro.org/bro
+  else:
+    if [ ! -e bro-${VERSION}.tar.gz ] ; then
       echo "downloading bro"
       wget -c http://www.bro.org/downloads/release/bro-${VERSION}.tar.gz --progress=dot:mega
-  fi
-  if [ ! -e bro-${VERSION} ] ; then
+    fi
+    if [ ! -e bro-${VERSION} ] ; then
       echo "untarring bro"
       tar xzf bro-${VERSION}.tar.gz
+    fi
   fi
-  cd bro-${VERSION}
-  ./configure || die "configure failed"
-  make || die "build failed"
-  sudo make install || die "install failed"
+}
+
+function install_bro {
+  if DEV_VERSION="yes"; then
+    cd bro
+    ./configure || die "configure failed"
+    make || die "build failed"
+    sudo make install || die "install failed"
+  else:
+    cd bro-${VERSION}
+    ./configure || die "configure failed"
+    make || die "build failed"
+    sudo make install || die "install failed"
+  fi
 }
 
 function configure_bro {
@@ -62,7 +63,7 @@ function configure_bro {
 
 pre_setup
 install_prereqs
-install_geoIP
+download_bro
 install_bro
 configure_bro
 
