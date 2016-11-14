@@ -7,7 +7,7 @@
 # you're doing.
 
 # ---- Define number of nodes to spin up ----
-N = 2
+N = 8
 
 # ---- Define any custom memory/cpu requirement ----
 # if custom requirements are desired...ensure to set
@@ -32,7 +32,7 @@ ansible_groups = {
     "node[0:#{N-1}"
   ]
 }
-box = "bento/centos-7.2"  #Define Vagrant box to load
+box = "geerlingguy/centos7"  #Define Vagrant box to load
 custom_cpu_mem = "no"  #Define if custom cpu and memory requirements are needed (yes| no)...defined within nodes variable above
 desktop = "no"  #Define if running desktop OS (yes | no)
 enable_custom_boxes = "no"  #Define if custom boxes should be used...defined in nodes var..

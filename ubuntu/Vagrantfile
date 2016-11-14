@@ -32,7 +32,7 @@ ansible_groups = {
     "node[0:#{N-1}"
   ]
 }
-box = "bento/ubuntu-15.04"  #Define Vagrant box to load
+box = "geerlingguy/ubuntu1604"  #Define Vagrant box to load
 custom_cpu_mem = "no"  #Define if custom cpu and memory requirements are needed (yes| no)...defined within nodes variable above
 desktop = "no"  #Define if running desktop OS (yes | no)
 enable_custom_boxes = "no"  #Define if custom boxes should be used...defined in nodes var..
